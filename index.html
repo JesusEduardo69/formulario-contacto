@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulario de contacto</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: 30px auto; padding: 0 15px; }
+    label { display: block; margin-top: 12px; font-weight: bold; }
+    input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+    button { margin-top: 15px; width: 100%; padding: 12px; background: #25d366; color: #fff;
+             border: 0; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    iframe { width: 100%; height: 300px; border: 0; margin-top: 20px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h2>Formulario de contacto</h2>
+
+  <form onsubmit="return enviar()">
+    <label>Nombre</label>
+    <input type="text" id="nombre" maxlength="50" required>
+
+    <label>Teléfono</label>
+    <input type="tel" id="tel" maxlength="10" pattern="[0-9]{10}" placeholder="10 dígitos" required>
+
+    <label>Correo</label>
+    <input type="email" id="correo" maxlength="60" required>
+
+    <label>Comentario</label>
+    <textarea id="comentario" rows="4" maxlength="60" required></textarea>
+
+    <label id="reto"></label>
+    <input type="number" id="captcha" required>
+
+    <button type="submit">Enviar por WhatsApp</button>
+  </form>
+
+  <h3>Ubicación: Tulcingo de Valle, Puebla</h3>
+  <iframe src="https://www.google.com/maps?q=Tulcingo+de+Valle,+Puebla,+Mexico&z=15&output=embed" loading="lazy"></iframe>
+
+  <script>
+    const MI_WHATSAPP = "527571124687";
+
+    const a = Math.floor(Math.random() * 9) + 1;
+    const b = Math.floor(Math.random() * 9) + 1;
+    document.getElementById("reto").textContent = "¿Cuánto es " + a + " + " + b + "?";
+
+    function enviar() {
+      if (Number(document.getElementById("captcha").value) !== a + b) {
+        alert("Captcha incorrecto");
+        return false;
+      }
+      const nombre = document.getElementById("nombre").value.trim();
+      const tel = document.getElementById("tel").value.trim();
+      const correo = document.getElementById("correo").value.trim();
+      const comentario = document.getElementById("comentario").value.trim();
+
+      const texto = "Hola, mi nombre es " + nombre +
+                    ". Mi teléfono es: " + tel +
+                    ". Correo: " + correo +
+                    ". Comentario: " + comentario;
+
+      window.location.href = "https://api.whatsapp.com/send?phone=" + MI_WHATSAPP + "&text=" + encodeURIComponent(texto);
+      return false;
+    }
+  </script>
+</body>
+</html>

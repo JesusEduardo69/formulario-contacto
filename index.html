@@ -63,6 +63,13 @@
       window.location.href = "https://api.whatsapp.com/send?phone=" + MI_WHATSAPP + "&text=" + encodeURIComponent(texto);
       return false;
     }
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=18.07&longitude=-98.40&current_weather=true")
+  .then(r => r.json())
+  .then(d => {
+    const c = d.current_weather;
+    document.getElementById("clima").innerHTML =
+      "🌡️ Clima actual: " + c.temperature + " °C<br>💨 Viento: " + c.windspeed + " km/h";
+  });
   </script>
   <!--Start of Tawk.to Script-->
 <script type="text/javascript">
